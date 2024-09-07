@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Message Sender</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>WhatsApp Message Sender</h2>
+        <form id="messageForm">
+            <label for="file">Upload CSV File:</label>
+            <input type="file" id="file" name="file" required>
+
+            <label for="name_column">Name Column:</label>
+            <input type="text" id="name_column" name="name_column" placeholder="Enter the column name for names" required>
+
+            <label for="phone_column">Phone Column:</label>
+            <input type="text" id="phone_column" name="phone_column" placeholder="Enter the column name for phone numbers" required>
+
+            <label for="message">Message Template:</label>
+            <textarea id="message" name="message" rows="5" placeholder="Type your message (use {name} for the recipient's name)" required></textarea>
+
+            <button type="submit">Send Messages</button>
+        </form>
+        <div id="status"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
