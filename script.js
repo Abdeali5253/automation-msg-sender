@@ -8,13 +8,14 @@ document.getElementById('messageForm').addEventListener('submit', function(event
     formData.append('phone_column', document.getElementById('phone_column').value);
     formData.append('message', document.getElementById('message').value);
 
-    fetch('/send-messages', {
+    fetch('http://localhost:5000/send-messages', {
         method: 'POST',
         body: formData
     })
-    .then(response => {
+    .then(async response => {
         if (!response.ok) {
-            return response.json().then(err => { throw err; });
+            const err = await response.json();
+            throw err;
         }
         return response.json();
     })
