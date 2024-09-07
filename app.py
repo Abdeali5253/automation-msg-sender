@@ -9,7 +9,7 @@ import os
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}}, allow_headers=["Content-Type", "Authorization", "Access-Control-Allow-Credentials"], supports_credentials=True)
+CORS(app, resources={r"/*": {"origins": "*"}}, allow_headers=["Content-Type"])
 
 UPLOAD_FOLDER = './uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -33,6 +33,11 @@ def process_batch(df, name_col, phone_col, message_template, start, end):
     for index, row in df.iloc[start:end].iterrows():
         name = row[name_col]
         phone_number = row[phone_col]
+        
+        # Ensure both name and phone number are strings
+        name = str(name)
+        phone_number = str(phone_number)
+        
         # Customize the message with the recipient's name
         message = message_template.replace('{name}', name)
 
@@ -57,8 +62,11 @@ def send_messages():
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     file.save(filepath)
 
-    # Read the CSV into a DataFrame
-    df = pd.read_csv(filepath)
+    # Read the CSV into a DataFrame, ensuring that phone numbers and names are strings
+    df = pd.read_csv(filepath, dtype={'Telephone#': str, 'NAMES': str})
+
+    # Fill NaN values with an empty string
+    df = df.fillna('')
 
     # Get the column names and message from the request
     name_col = request.form.get('name_column')
