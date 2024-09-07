@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Import CORS
 import pandas as pd
 import pywhatkit as kit
 import pyautogui
@@ -8,6 +9,7 @@ import os
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for the app
 
 UPLOAD_FOLDER = './uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -82,6 +84,7 @@ def send_messages():
         t.join()
 
     return jsonify({'status': 'Messages sent successfully'})
+
 
 if __name__ == '__main__':
     app.run(debug=True)

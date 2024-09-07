@@ -12,11 +12,20 @@ document.getElementById('messageForm').addEventListener('submit', function(event
         method: 'POST',
         body: formData
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            return response.json().then(err => { throw err; });
+        }
+        return response.json();
+    })
     .then(data => {
         document.getElementById('status').innerText = data.status;
     })
     .catch(error => {
-        document.getElementById('status').innerText = 'Error sending messages: ' + error;
+        if (error.error) {
+            document.getElementById('status').innerText = 'Error: ' + error.error;
+        } else {
+            document.getElementById('status').innerText = 'Unknown error occurred';
+        }
     });
 });
