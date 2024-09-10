@@ -7,6 +7,8 @@ document.getElementById('messageForm').addEventListener('submit', function(event
     formData.append('name_column', document.getElementById('name_column').value);
     formData.append('phone_column', document.getElementById('phone_column').value);
     formData.append('message', document.getElementById('message').value);
+    formData.append('balance_column', document.getElementById('balance_column').value);
+
 
     fetch('http://localhost:5000/send-messages', {
         method: 'POST',

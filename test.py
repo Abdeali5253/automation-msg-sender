@@ -1,8 +1,10 @@
 import pandas as pd
 from selenium import webdriver
-from selenium.webdriver.common.by import By  # Import the correct 'By' module for newer Selenium
-from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.keys import Keys
 import time
 import os
 
@@ -17,15 +19,33 @@ driver = webdriver.Chrome(service=service)
 def send_whatsapp_message(phone_no, message):
     try:
         # Convert phone number to string and remove any decimals
-        phone_no = str(int(float(phone_no)))  # Handling float to avoid issues with decimal points
-        
+        if not pd.isna(phone_no):
+            phone_no = str(int(float(phone_no)))  # Handling float to avoid issues with decimal points
+        else:
+            print(f"Skipping message. Phone number is missing: {phone_no}")
+            return
+
         # Navigate to the WhatsApp Web with the phone number and message pre-filled
         driver.get(f"https://web.whatsapp.com/send?phone={phone_no}&text={message}")
-        time.sleep(8)  # Wait for the page to load (adjust this based on your internet speed)
         
-        # Locate the input box and press Enter to send the message
-        input_box = driver.find_element(By.XPATH, '//div[@title="Type a message"]')
-        input_box.send_keys(Keys.ENTER)
+        # Wait for the message input box to appear
+        try:
+            input_box = WebDriverWait(driver, 20).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, 'div[title*="Type a message"]'))
+            )
+        except Exception as e:
+            return f"Failed to send message to {phone_no}: Message box not found. Error: {e}"
+
+        # Wait until the send button is clickable
+        try:
+            send_button = WebDriverWait(driver, 20).until(
+                EC.element_to_be_clickable((By.CSS_SELECTOR, 'span[data-icon="send"]'))
+            )
+        except Exception as e:
+            return f"Failed to send message to {phone_no}: Send button not found. Error: {e}"
+
+        # Click the send button to send the message
+        send_button.click()
         time.sleep(3)  # Wait for the message to send
         return f"Message sent to {phone_no}"
     except Exception as e:
@@ -62,11 +82,16 @@ message_template = "Hello {name}, this is a test message in bulk"
 # Sending messages in bulk
 for index, row in df.iterrows():
     name = str(row['NAMES'])  # Convert name to string
-    phone = row['Telephone#']     # Phone numbers are likely floats (due to Excel formatting), we'll handle that below
+    phone = row['Telephone#']  # Phone numbers are likely floats (due to Excel formatting), we'll handle that below
+
+    # Skip rows with missing phone numbers
+    if pd.isna(phone):
+        print(f"Skipping row {index} due to missing phone number")
+        continue
 
     # Customize the message for each recipient
     message = message_template.replace("{name}", name)
-    
+
     # Send the customized message
     result = send_whatsapp_message(phone, message)
     print(result)

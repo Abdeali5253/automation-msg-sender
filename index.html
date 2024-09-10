@@ -10,7 +10,7 @@
     <div class="container">
         <h2>WhatsApp Message Sender</h2>
         <form id="messageForm">
-            <label for="file">Upload CSV File:</label>
+            <label for="file">Upload CSV or Excel File:</label>
             <input type="file" id="file" name="file" required>
 
             <label for="name_column">Name Column:</label>
@@ -19,8 +19,11 @@
             <label for="phone_column">Phone Column:</label>
             <input type="text" id="phone_column" name="phone_column" placeholder="Enter the column name for phone numbers" required>
 
+            <label for="balance_column">Balance Column:</label>
+            <input type="text" id="balance_column" name="balance_column" placeholder="Enter the column name for balance" required>
+
             <label for="message">Message Template:</label>
-            <textarea id="message" name="message" rows="5" placeholder="Type your message (use {name} for the recipient's name)" required></textarea>
+            <textarea id="message" name="message" rows="5" placeholder="Type your message (use {name} and {balance} for placeholders)" required></textarea>
 
             <button type="submit">Send Messages</button>
         </form>
