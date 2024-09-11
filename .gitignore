@@ -1,2 +1,5 @@
 /test.csv
 /uploads
+*.xlsx
+*.csv
+PyWhatKit_DB.txt
