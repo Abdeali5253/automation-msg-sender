@@ -3,4 +3,10 @@
 *.xlsx
 *.csv
 *.txt
-PyWhatKit_DB.txt
+package-lock.json
+node_modules
+.wwebjs_auth
+.wwebjs_cache
+package.json
+qr_code.png
+*.zip

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Message Sender</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>WhatsApp Message Sender</h2>
+        <form id="messageForm">
+            <label for="file">Upload CSV or Excel File:</label>
+            <input type="file" id="file" name="file" required>
+        
+            <label for="mobile_column">Mobile Column (Required):</label>
+            <input type="text" id="mobile_column" name="mobile_column" placeholder="Enter the column name for mobile numbers" required>
+        
+            <label for="dynamic_columns">Dynamic Columns (Optional):</label>
+            <input type="text" id="dynamic_columns" name="dynamic_columns" placeholder="Enter placeholders and columns as placeholder:column, e.g. name:Fullname,age:Age">
+        
+            <label for="message">Message Template:</label>
+            <textarea id="message" name="message" rows="5" placeholder="Type your message. Use {name}, {age}, etc. for placeholders" required></textarea>
+        
+            <button type="submit">Send Messages</button>
+        </form>
+
+        <div id="status"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+

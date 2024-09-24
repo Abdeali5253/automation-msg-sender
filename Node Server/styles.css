@@ -1,0 +1,106 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Ensure content stays within the container */
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+input[type="file"],
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    box-sizing: border-box; /* Ensure input fields don't overflow */
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: #28a745;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+button {
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+#status {
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#status.error {
+    color: red;
+}
+
+#status.success {
+    color: green;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    input, textarea {
+        font-size: 14px;
+    }
+
+    button {
+        font-size: 14px;
+    }
+}
