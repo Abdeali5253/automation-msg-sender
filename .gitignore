@@ -1,5 +1,4 @@
-/test.csv
-/uploads
+uploads
 *.xlsx
 *.csv
 *.txt
@@ -8,5 +7,5 @@ node_modules
 .wwebjs_auth
 .wwebjs_cache
 package.json
-qr_code.png
+*.png
 *.zip

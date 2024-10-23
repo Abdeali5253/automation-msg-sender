@@ -1,22 +1,40 @@
+/* Define color variables */
+:root {
+    --bg-color: #f4f4f4;
+    --text-color: #333;
+    --container-bg-color: white;
+    --input-bg-color: #f9f9f9;
+    --input-border-color: #ccc;
+    --focus-border-color: #28a745;
+    --button-bg-color: #28a745;
+    --button-hover-bg-color: #218838;
+    --status-error-color: red;
+    --status-success-color: green;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
-    background-color: #f4f4f4;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .container {
-    max-width: 700px;
+    max-width: 600px;
     margin: 0 auto;
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden; /* Ensure content stays within the container */
+    padding: 25px;
+    background-color: var(--container-bg-color);
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px var(--shadow-color);
+    overflow: hidden;
 }
 
 h2 {
     text-align: center;
-    color: #333;
+    font-weight: 600;
+    font-size: 24px;
     margin-bottom: 20px;
 }
 
@@ -28,68 +46,102 @@ form {
 label {
     font-weight: bold;
     margin-bottom: 5px;
-    color: #555;
+    color: var(--text-color);
 }
 
 input[type="file"],
 input[type="text"],
 textarea {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--input-border-color);
     border-radius: 4px;
-    background-color: #f9f9f9;
-    box-sizing: border-box; /* Ensure input fields don't overflow */
+    background-color: var(--input-bg-color);
+    color: var(--text-color);
+    font-size: 14px;
+    transition: border-color 0.3s;
 }
 
 input:focus,
 textarea:focus {
     outline: none;
-    border-color: #28a745;
+    border-color: var(--focus-border-color);
 }
 
 textarea {
     resize: vertical;
-    min-height: 120px;
+    min-height: 100px;
 }
 
 button {
-    padding: 12px;
-    background-color: #28a745;
+    padding: 10px;
+    background-color: var(--button-bg-color);
     color: white;
     border: none;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: var(--button-hover-bg-color);
+}
+
+/* Small dark mode toggle button */
+#darkModeToggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: transparent;
+    color: var(--button-bg-color);
+    border: 2px solid var(--button-bg-color);
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#darkModeToggle:hover {
+    background-color: var(--button-bg-color);
+    color: white;
 }
 
 #status {
     margin-top: 20px;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     text-align: center;
 }
 
 #status.error {
-    color: red;
+    color: var(--status-error-color);
 }
 
 #status.success {
-    color: green;
+    color: var(--status-success-color);
+}
+
+/* Dark mode styles */
+body.dark {
+    --bg-color: #202124;
+    --text-color: #e8eaed;
+    --container-bg-color: #303134;
+    --input-bg-color: #3c4043;
+    --input-border-color: #5f6368;
+    --focus-border-color: #8ab4f8;
+    --button-bg-color: #8ab4f8;
+    --button-hover-bg-color: #6c9ef1;
+    --shadow-color: rgba(0, 0, 0, 0.6);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
         width: 100%;
-        padding: 10px;
+        padding: 15px;
     }
 
     h2 {
@@ -97,10 +149,10 @@ button:hover {
     }
 
     input, textarea {
-        font-size: 14px;
+        font-size: 12px;
     }
 
     button {
-        font-size: 14px;
+        font-size: 12px;
     }
 }
