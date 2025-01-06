@@ -45,11 +45,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div id="status1"></div>
+        <div>
+            <h3>Messages Sent Successfully: <span id="counter">0</span></h3>
+        </div>
     <div class="container">
         <h2>WhatsApp Message Sender</h2>
-        <!-- Dark mode toggle button -->
-        <button id="darkModeToggle">Toggle Dark Mode</button>
-        
         <form id="messageForm">
             <label for="file">Upload CSV or Excel File:</label>
             <input type="file" id="file" name="file" required>
@@ -66,7 +67,12 @@
             <button type="submit">Send Messages</button>
         </form>
 
-        <div id="status"></div>
+        <div id="status" class="status-scrollable"></div>
+        <div class="preview">
+            <h3>Message Preview</h3>
+            <div class="preview-message" id="messagePreview"></div>
+        </div>
+
     </div>
 
     <script src="script.js"></script>

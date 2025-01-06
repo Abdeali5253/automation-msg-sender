@@ -185,6 +185,7 @@ app.post('/send-messages', upload.single('file'), async (req, res) => {
             } catch (error) {
                 progressEmitter.emit('update', { status: 'error', message: `Failed to send message to ${contact[mobileColumn]}: ${error.message}` });
             }
+            
 
             // Wait for 8 seconds before sending the next message
             await delay(8000);
