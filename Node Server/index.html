@@ -30,6 +30,15 @@
           required
         />
 
+        <label for="image">Upload Image (Optional):</label>
+        <input
+          type="file"
+          id="image"
+          name="image"
+          accept="image/*"
+          placeholder="Enter Image if wanted"
+        />
+
         <label for="dynamic_columns">Dynamic Columns (Optional):</label>
         <input
           type="text"
@@ -44,7 +53,6 @@
           name="message"
           rows="5"
           placeholder="Type your message. Use {name}, {age}, etc. for placeholders"
-          required
         ></textarea>
 
         <button type="submit">Send Messages</button>
