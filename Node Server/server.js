@@ -92,6 +92,8 @@
 //     console.log('Server running on http://localhost:3000');
 // });
 
+// const cors = require('cors');
+
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
@@ -108,6 +110,8 @@ const progressEmitter = new EventEmitter();
 
 // Serve static files
 app.use(express.static(path.join(__dirname)));
+
+// app.use(cors());
 
 // Helper function to introduce delay
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -209,6 +213,6 @@ app.post('/send-messages', upload.single('file'), async (req, res) => {
 });
 
 // Start the server
-app.listen(3000, () => {
+app.listen(3000, '0.0.0.0', () => {
     console.log('Server running on http://localhost:3000');
 });
