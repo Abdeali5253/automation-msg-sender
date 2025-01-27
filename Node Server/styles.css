@@ -204,3 +204,9 @@ body.dark {
         transform: none;
     }
 }
+
+#imagePreview {
+    border: 1px solid var(--input-border-color);
+    border-radius: 4px;
+    margin-top: 10px;
+  }

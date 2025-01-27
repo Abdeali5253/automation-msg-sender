@@ -93,6 +93,22 @@ document.getElementById('message').addEventListener('input', function () {
   document.getElementById('messagePreview').innerHTML = formattedMessage
 })
 
+document.getElementById('image').addEventListener('change', function () {
+  const file = this.files[0]
+  const imagePreview = document.getElementById('imagePreview')
+
+  if (file) {
+    const reader = new FileReader()
+    reader.onload = function (e) {
+      imagePreview.src = e.target.result
+      imagePreview.style.display = 'block' // Show the image preview
+    }
+    reader.readAsDataURL(file)
+  } else {
+    imagePreview.style.display = 'none' // Hide the image preview if no file is selected
+  }
+})
+
 let eventSource // Global variable for EventSource
 
 function listenToProgress() {
