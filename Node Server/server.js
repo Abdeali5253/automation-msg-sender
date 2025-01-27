@@ -628,6 +628,10 @@ app.post(
           return map
         }, {})
 
+      progressEmitter.emit('update', {
+        status: 'ready',
+        message: `Processing your request. Please wait...`,
+      })
       console.log('Starting batch processing...') // Debugging statement
 
       await initializeClientAndProcessBatch(
