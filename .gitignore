@@ -2,10 +2,8 @@ uploads
 *.xlsx
 *.csv
 *.txt
-package-lock.json
 node_modules
 .wwebjs_auth
 .wwebjs_cache
-package.json
 *.png
 *.zip
