@@ -1,9 +1,0 @@
-uploads
-*.xlsx
-*.csv
-*.txt
-node_modules
-.wwebjs_auth
-.wwebjs_cache
-*.png
-*.zip

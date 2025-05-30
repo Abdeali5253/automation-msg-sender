@@ -2,3 +2,9 @@
 *.jpg
 *.jpeg
 *.webp
+*.xlsx
+*.txt
+.wwebjs_auth
+.wwebjs_cache
+node_modules
+uploads
