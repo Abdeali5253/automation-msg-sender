@@ -1,5 +1,3 @@
-
-
 // Function to apply WhatsApp-like formatting
 function formatMessage(message) {
   console.log('Formatting message:', message) // Debugging statement
@@ -34,6 +32,23 @@ document.getElementById('image').addEventListener('change', function () {
     imagePreview.style.display = 'none' // Hide the image preview if no file is selected
   }
 })
+
+document.getElementById('video').addEventListener('change', function () {
+  const file = this.files[0];
+  const videoPreview = document.getElementById('videoPreview');
+
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      videoPreview.src = e.target.result;
+      videoPreview.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+  } else {
+    videoPreview.style.display = 'none';
+  }
+});
+
 
 let eventSource // Global variable for EventSource
 

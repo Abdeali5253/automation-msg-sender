@@ -8,3 +8,4 @@
 .wwebjs_cache
 node_modules
 uploads
+*.mp4

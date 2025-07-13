@@ -1,76 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WhatsApp Message Sender</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div id="status1"></div>
-    <div>
-      <h3>Messages Sent Successfully: <span id="counter">0</span></h3>
-    </div>
-    <div class="container">
-      <h2>WhatsApp Message Sender</h2>
-      <form id="messageForm">
-        <label for="file">Upload CSV or Excel File:</label>
-        <input type="file" id="file" name="file" required />
 
-        <label for="mobile_column">Mobile Column (Required):</label>
-        <input
-          type="text"
-          id="mobile_column"
-          name="mobile_column"
-          placeholder="Enter the column name for mobile numbers"
-          required
-        />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WhatsApp Message Sender</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
 
-        <label for="image">Upload Image (Optional):</label>
-        <input
-          type="file"
-          id="image"
-          name="image"
-          accept="image/*"
-          placeholder="Enter Image if wanted"
-        />
+<body>
+  <div id="status1"></div>
 
-        <label for="dynamic_columns">Dynamic Columns (Optional):</label>
-        <input
-          type="text"
-          id="dynamic_columns"
-          name="dynamic_columns"
-          placeholder="Enter placeholders and columns as placeholder:column, e.g. name:Fullname,age:Age"
-        />
+  <div class="container">
+    <h2>WhatsApp Message Sender</h2>
+    <form id="messageForm">
+      <label for="file">Upload CSV or Excel File:</label>
+      <input type="file" id="file" name="file" required />
 
-        <label for="message">Message Template:</label>
-        <textarea
-          id="message"
-          name="message"
-          rows="5"
-          placeholder="Type your message. Use {name}, {age}, etc. for placeholders"
-        ></textarea>
+      <label for="mobile_column">Mobile Column (Required):</label>
+      <input type="text" id="mobile_column" name="mobile_column" placeholder="Enter the column name for mobile numbers"
+        required />
 
-        <button id="sendButton" type="submit">Send Messages</button>
-      </form>
+      <label for="image">Upload Image (Optional):</label>
+      <input type="file" id="image" name="image" accept="image/*" placeholder="Enter Image if wanted" />
 
-      <div id="status" class="status-scrollable"></div>
+      <label for="video">Upload Video (Optional):</label>
+      <input type="file" id="video" name="video" accept="video/*" placeholder="Enter Video if wanted" />
 
-      <div class="preview">
-        <h3>Message Preview</h3>
-        <img
-          id="imagePreview"
-          alt="Image Preview"
-          style="display: none; max-width: 100%; margin-top: 10px"
-        />
-        <div class="preview-message" id="messagePreview"></div>
+
+      <label for="dynamic_columns">Dynamic Columns (Optional):</label>
+      <input type="text" id="dynamic_columns" name="dynamic_columns"
+        placeholder="Enter placeholders and columns as placeholder:column, e.g. name:Fullname,age:Age" />
+
+      <label for="message">Message Template:</label>
+      <textarea id="message" name="message" rows="5"
+        placeholder="Type your message. Use {name}, {age}, etc. for placeholders"></textarea>
+
+      <button id="sendButton" type="submit">Send Messages</button>
+
+
+    </form>
+
+    <div id="status" class="status-scrollable"></div>
+
+
+
+    <div class="preview">
+      <div>
+        <h3> Messages Sent Successfully: <span id="counter">0</span></h3>
       </div>
+      <h3>Message Preview</h3>
+      <video id="videoPreview" controls style="display: none; max-width: 100%; margin-top: 10px"></video>
+      <img id="imagePreview" alt="Image Preview" style="display: none; max-width: 100%; margin-top: 10px" />
+      <div class="preview-message" id="messagePreview"></div>
     </div>
+  </div>
 
-    <script src="script.js"></script>
-  </body>
+  <script src="script.js"></script>
+</body>
+
 </html>
