@@ -33,21 +33,21 @@ document.getElementById('image').addEventListener('change', function () {
   }
 })
 
-document.getElementById('video').addEventListener('change', function () {
-  const file = this.files[0];
-  const videoPreview = document.getElementById('videoPreview');
+// document.getElementById('video').addEventListener('change', function () {
+//   const file = this.files[0];
+//   const videoPreview = document.getElementById('videoPreview');
 
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      videoPreview.src = e.target.result;
-      videoPreview.style.display = 'block';
-    };
-    reader.readAsDataURL(file);
-  } else {
-    videoPreview.style.display = 'none';
-  }
-});
+//   if (file) {
+//     const reader = new FileReader();
+//     reader.onload = function (e) {
+//       videoPreview.src = e.target.result;
+//       videoPreview.style.display = 'block';
+//     };
+//     reader.readAsDataURL(file);
+//   } else {
+//     videoPreview.style.display = 'none';
+//   }
+// });
 
 
 let eventSource // Global variable for EventSource
@@ -160,4 +160,6 @@ document
         sendButton.disabled = false
         sendButton.innerText = 'Send Messages'
       })
+
+      return false
   })
