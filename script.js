@@ -195,76 +195,142 @@ document.getElementById("image").addEventListener("change", function () {
   }
 });
 
+// let eventSource;
+// function listenToProgress() {
+//   if (eventSource) { console.log("[SSE] already open"); return; }
+//   console.log("[SSE] Opening EventSource to /progress...");
+//   eventSource = new EventSource("http://localhost:3000/progress");
+//   eventSource.onopen = () => console.log("[SSE] Connection opened");
+//   eventSource.onmessage = (event) => {
+//     try {
+//       const data = JSON.parse(event.data);
+//       console.log("[SSE] Progress:", data);
+//       if (data.status === "qr") {
+//         document.getElementById("status1").innerHTML = `<img src="${data.qrImage}" alt="Scan QR Code" />`;
+//       } else {
+//         const statusDiv = document.getElementById("status");
+//         const p = document.createElement("p");
+//         p.innerText = data.message;
+//         statusDiv.appendChild(p);
+//         const msgs = statusDiv.getElementsByTagName("p");
+//         if (msgs.length > 10) statusDiv.removeChild(msgs[0]);
+//       }
+//       if (data.status === "progress" && data.message?.includes("Message sent")) {
+//         const c = document.getElementById("counter");
+//         const n = parseInt(c.innerText || "0", 10) + 1;
+//         c.innerText = n;
+//         console.log("[UI] Counter:", n);
+//       }
+//       if (data.status === "success" || data.status === "error") {
+//         console.log("[SSE] Final:", data.status);
+//         const btn = document.getElementById("sendButton");
+//         btn.disabled = false;
+//         btn.innerText = "Send Messages";
+//         eventSource.close(); eventSource = null;
+//       }
+//     } catch (e) {
+//       console.error("[SSE] Parse error:", e);
+//     }
+//   };
+//   eventSource.onerror = (e) => {
+//     console.error("[SSE] Error:", e);
+//     const btn = document.getElementById("sendButton");
+//     btn.disabled = false; btn.innerText = "Send Messages";
+//     try { eventSource.close(); } catch { }
+//     eventSource = null;
+//   };
+// }
+
+// script.js (patch)
 let eventSource;
+
 function listenToProgress() {
-  if (eventSource) { console.log("[SSE] already open"); return; }
-  console.log("[SSE] Opening EventSource to /progress...");
+  if (eventSource) return;
   eventSource = new EventSource("http://localhost:3000/progress");
-  eventSource.onopen = () => console.log("[SSE] Connection opened");
+
   eventSource.onmessage = (event) => {
-    try {
-      const data = JSON.parse(event.data);
-      console.log("[SSE] Progress:", data);
-      if (data.status === "qr") {
-        document.getElementById("status1").innerHTML = `<img src="${data.qrImage}" alt="Scan QR Code" />`;
-      } else {
-        const statusDiv = document.getElementById("status");
-        const p = document.createElement("p");
-        p.innerText = data.message;
-        statusDiv.appendChild(p);
-        const msgs = statusDiv.getElementsByTagName("p");
-        if (msgs.length > 10) statusDiv.removeChild(msgs[0]);
-      }
-      if (data.status === "progress" && data.message?.includes("Message sent")) {
-        const c = document.getElementById("counter");
-        const n = parseInt(c.innerText || "0", 10) + 1;
-        c.innerText = n;
-        console.log("[UI] Counter:", n);
-      }
-      if (data.status === "success" || data.status === "error") {
-        console.log("[SSE] Final:", data.status);
-        const btn = document.getElementById("sendButton");
-        btn.disabled = false;
-        btn.innerText = "Send Messages";
-        eventSource.close(); eventSource = null;
-      }
-    } catch (e) {
-      console.error("[SSE] Parse error:", e);
+    const data = JSON.parse(event.data);
+    if (data.status === "qr") {
+      document.getElementById("status1").innerHTML = `<img src="${data.qrImage}" alt="Scan QR Code" />`;
+    } else {
+      const statusDiv = document.getElementById("status");
+      const p = document.createElement("p");
+      p.innerText = data.message;
+      statusDiv.appendChild(p);
+      const msgs = statusDiv.getElementsByTagName("p");
+      if (msgs.length > 10) statusDiv.removeChild(msgs[0]);
+    }
+    if (data.status === "progress" && /Message sent/.test(data.message)) {
+      const counter = document.getElementById("counter");
+      counter.innerText = String(parseInt(counter.innerText || "0", 10) + 1);
+    }
+    if (data.status === "success" || data.status === "error") {
+      const sendBtn = document.getElementById("sendButton");
+      sendBtn.disabled = false;
+      sendBtn.innerText = "Send Messages";
+      eventSource.close();
+      eventSource = null;
     }
   };
-  eventSource.onerror = (e) => {
-    console.error("[SSE] Error:", e);
-    const btn = document.getElementById("sendButton");
-    btn.disabled = false; btn.innerText = "Send Messages";
-    try { eventSource.close(); } catch { }
+
+  eventSource.onerror = () => {
+    const sendBtn = document.getElementById("sendButton");
+    sendBtn.disabled = false;
+    sendBtn.innerText = "Send Messages";
+    try { eventSource && eventSource.close(); } catch {}
     eventSource = null;
   };
 }
 
-document.getElementById("messageForm").addEventListener("submit", function (e) {
+document.getElementById("messageForm").addEventListener("submit", (e) => {
   e.preventDefault();
-  // reset UI
   document.getElementById("counter").innerText = "0";
   document.getElementById("status").innerHTML = "";
   document.getElementById("status1").innerHTML = "";
-  const btn = document.getElementById("sendButton");
-  btn.disabled = true; btn.innerText = "Processing...";
-
-  const formData = new FormData(this);
-  console.log("[UI] Submitting form...");
+  const sendBtn = document.getElementById("sendButton");
+  sendBtn.disabled = true;
+  sendBtn.innerText = "Processing...";
+  const formData = new FormData(e.target);
   listenToProgress();
-
   fetch("http://localhost:3000/send-messages", { method: "POST", body: formData })
-    .then((res) => { console.log("[HTTP] status:", res.status); return res.json(); })
+    .then((r) => r.json())
     .then((data) => {
-      console.log("[HTTP] json:", data);
-      if (data.status !== "success") { btn.disabled = false; btn.innerText = "Send Messages"; }
+      if (data.status !== "success") {
+        sendBtn.disabled = false;
+        sendBtn.innerText = "Send Messages";
+      }
     })
-    .catch((e) => {
-      console.error("[HTTP] Error:", e);
-      document.getElementById("status").innerText = "An error occurred.";
-      btn.disabled = false; btn.innerText = "Send Messages";
+    .catch(() => {
+      sendBtn.disabled = false;
+      sendBtn.innerText = "Send Messages";
     });
-
-  return false;
 });
+
+
+// document.getElementById("messageForm").addEventListener("submit", function (e) {
+//   e.preventDefault();
+//   // reset UI
+//   document.getElementById("counter").innerText = "0";
+//   document.getElementById("status").innerHTML = "";
+//   document.getElementById("status1").innerHTML = "";
+//   const btn = document.getElementById("sendButton");
+//   btn.disabled = true; btn.innerText = "Processing...";
+
+//   const formData = new FormData(this);
+//   console.log("[UI] Submitting form...");
+//   listenToProgress();
+
+//   fetch("http://localhost:3000/send-messages", { method: "POST", body: formData })
+//     .then((res) => { console.log("[HTTP] status:", res.status); return res.json(); })
+//     .then((data) => {
+//       console.log("[HTTP] json:", data);
+//       if (data.status !== "success") { btn.disabled = false; btn.innerText = "Send Messages"; }
+//     })
+//     .catch((e) => {
+//       console.error("[HTTP] Error:", e);
+//       document.getElementById("status").innerText = "An error occurred.";
+//       btn.disabled = false; btn.innerText = "Send Messages";
+//     });
+
+//   return false;
+// });
